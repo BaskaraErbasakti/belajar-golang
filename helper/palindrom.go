@@ -3,6 +3,7 @@ package helper
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func reverse(n int) int {
@@ -18,9 +19,14 @@ func reverse(n int) int {
 	return newInt
 }
 
-func Palindrom(x int, y int) int {
+func Palindrom(x string) int {
+	strs := strings.Split(x, " ")
+	ary := make([]int, len(strs))
+	for i := range ary {
+		ary[i], _ = strconv.Atoi(strs[i])
+	}
 	total := 0
-	for i := x; i <= y; i++ {
+	for i := ary[0]; i <= ary[1]; i++ {
 		awal := i
 		hasilReverse := reverse(i)
 		if awal == hasilReverse {
