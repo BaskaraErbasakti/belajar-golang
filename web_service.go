@@ -1,22 +1,23 @@
 package main
 
 import (
+	"belajar-golang/helper"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
-func getPalindrom(w http.ResponseWriter, r *http.Request) {
+func palindromService(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	data := []struct {
-		Name string
-		Age  int
+		Palindrom string
+		Count     string
 	}{
-		{"Richard Grayson", 24},
-		{"Jason Todd", 23},
-		{"Tim Drake", 22},
-		{"Damian Wayne", 21},
+		{"1 10", "9"},
+		{"99 100", "1"},
+		{"21 31", "1"},
 	}
 
 	dataJson, err := json.Marshal(data)
@@ -28,7 +29,10 @@ func getPalindrom(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "POST":
-		w.Write([]byte("post"))
+		r.ParseForm()
+		inputPalindrom := r.FormValue("palindrom")
+		transform := strconv.Itoa(helper.Palindrom(inputPalindrom))
+		w.Write([]byte("total number palindrom is " + transform))
 	case "GET":
 		w.Write(dataJson)
 	default:
@@ -38,7 +42,7 @@ func getPalindrom(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", getPalindrom)
+	http.HandleFunc("/palindrom", palindromService)
 
 	fmt.Println("server started at localhost:8080")
 	http.ListenAndServe("localhost:8080", nil)
