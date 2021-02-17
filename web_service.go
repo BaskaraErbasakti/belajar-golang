@@ -45,5 +45,5 @@ func main() {
 	http.HandleFunc("/palindrom", palindromService)
 
 	fmt.Println("server started at localhost:8080")
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe(":8080", nil)
 }
